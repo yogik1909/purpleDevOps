@@ -1,4 +1,4 @@
-docker run -name db_1 -v /home/vasa:/var/lib/postgresql -p 65432:5432 -e POSTGRES_PASSWORD=password --name db_1 -d postgres
+docker run -v /home/vasa:/var/lib/postgresql -p 65432:5432 -e POSTGRES_PASSWORD=password --name db_1 -d postgres
 sudo ls /home/vasa/data
 docker stop db_1
 docker rm db_1
