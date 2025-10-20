@@ -13,4 +13,4 @@ services:
 
 networks:
   my-pg-network:
-    driver: bridg
+    driver: bridge
