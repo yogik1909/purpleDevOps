@@ -1,0 +1,37 @@
+127.0.0.1 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_distribution": "Debian",
+        "ansible_distribution_file_parsed": true,
+        "ansible_distribution_file_path": "/etc/os-release",
+        "ansible_distribution_file_variety": "Debian",
+        "ansible_distribution_major_version": "13",
+        "ansible_distribution_minor_version": "1",
+        "ansible_distribution_release": "trixie",
+        "ansible_distribution_version": "13.1",
+        "ansible_env": {
+            "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+            "HOME": "/home/vova",
+            "LANG": "ru_RU.UTF-8",
+            "LOGNAME": "vova",
+            "MOTD_SHOWN": "pam",
+            "PATH": "/usr/local/bin:/usr/bin:/bin:/usr/games",
+            "PWD": "/home/vova",
+            "SHELL": "/bin/bash",
+            "SHLVL": "0",
+            "SSH_CLIENT": "10.211.55.1 55800 22",
+            "SSH_CONNECTION": "10.211.55.1 55800 10.211.55.8 22",
+            "SSH_TTY": "/dev/pts/1",
+            "TERM": "xterm-256color",
+            "USER": "vova",
+            "XDG_RUNTIME_DIR": "/run/user/1000",
+            "XDG_SESSION_CLASS": "user",
+            "XDG_SESSION_ID": "13",
+            "XDG_SESSION_TYPE": "tty",
+            "_": "/bin/sh"
+        },
+        "ansible_hostname": "deb-bel",
+        "ansible_system": "Linux",
+        "discovered_interpreter_python": "/usr/bin/python3.13"
+    },
+    "changed": false
+}
