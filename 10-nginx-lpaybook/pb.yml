@@ -1,0 +1,79 @@
+---
+- name: Deploy web server container
+  hosts: all
+  become: yes
+  vars:
+    app_dir: "/opt/webapp"
+
+  tasks:
+    - name: Block install ansible
+      become: true
+      block:
+        - name: Prepere docker install
+          block:
+            - name: "обновление сопутки"
+              apt:
+                pkg:
+                  - ca-certificates
+                  - curl
+            - name: "Созадение каталога"
+              command:
+                cmd: "install -m 0755 -d /etc/apt/keyrings"
+            - name: "Получения ключа"
+              get_url:
+                url: https://download.docker.com/linux/debian/gpg
+                dest: /etc/apt/keyrings/docker.asc
+            - name: "add docker.asc run prev"
+              command:
+                cmd: chmod a+r /etc/apt/keyrings/docker.asc
+            - name: Add the repository to Apt sources
+              command: >
+                echo 
+                "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian
+                $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+                sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        - name: Install Docker engine
+          apt:
+            pkg:
+              - docker-ce
+              - docker-ce-cli
+              - containerd.io
+              - docker-buildx-plugin
+              - docker-compose-plugin
+        - name: add user in docker group
+          user:
+            name: "{{ ansible_user }}"
+            append: true
+            groups: docker
+        - name: Создать рабочий каталог
+          file:
+            path: "{{ app_dir }}"
+            state: directory
+            mode: '0755'
+        - name: Copy nginx configuration
+          copy:
+            src: files/nginx.conf
+            dest: "{{ app_dir }}/nginx.conf"
+            mode: '0644'
+            remote_src: false
+        - name: Create HTML directory
+          file:
+            path: "{{ app_dir }}/html"
+            state: directory
+            mode: '0755'
+        - name: Copy index.html
+          copy:
+            src: files/index.html
+            dest: "{{ app_dir }}/html/index.html"
+            mode: '0644'
+            remote_src: false
+        - name: Copy docker-compose.yml
+          copy:
+            src: files/docker-compose.yml
+            dest: "{{ app_dir }}/docker-compose.yml"
+            mode: '0644'
+            remote_src: false
+        - name: Ensure Docker Compose is running
+          community.docker.docker_compose_v2:
+            project_src: "{{ app_dir }}"
+            state: present
