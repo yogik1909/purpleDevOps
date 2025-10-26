@@ -58,4 +58,4 @@
         copy:
           src: file/*
           dest: "{{ app_dir }}"
-          mode: "0644"       
+          mode: "0644"
