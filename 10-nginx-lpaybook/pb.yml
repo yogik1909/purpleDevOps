@@ -56,10 +56,15 @@
             dest: "{{ app_dir }}/nginx.conf"
             mode: '0644'
             remote_src: false
+        - name: Create HTML directory
+          file:
+            path: "{{ app_dir }}/html"
+            state: directory
+            mode: '0755'
         - name: Copy index.html
           copy:
             src: files/index.html
-            dest: "{{ app_dir }}/index.html"
+            dest: "{{ app_dir }}/html/index.html"
             mode: '0644'
             remote_src: false
         - name: Copy docker-compose.yml
@@ -68,3 +73,7 @@
             dest: "{{ app_dir }}/docker-compose.yml"
             mode: '0644'
             remote_src: false
+        - name: Ensure Docker Compose is running
+          community.docker.docker_compose_v2:
+            project_src: "{{ app_dir }}"
+            state: present
